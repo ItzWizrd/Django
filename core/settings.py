@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6d%0#)_#nrx(lm!armxxcpnzw*s#)g-or)alzz8@q=e*bw6=dk'
+SECRET_KEY = 'django-insecure--+tcr)=v-xi7)lbx-vj9g$75wz=^gpx=-24$cp(suy+#rwiq(3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,14 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 THIRD_PARTY_APPS = []
-
 PROJECT_APPS = [
     "user",
     "customer",
-    "Product",
-    
+    "product",
+    "order",
+    "home",
+    "suppliers",
 ]
-
 INSTALLED_APPS += THIRD_PARTY_APPS + PROJECT_APPS
 
 MIDDLEWARE = [
@@ -64,7 +64,11 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # Keep the existing shared base template discoverable. App templates use
+        # Django's conventional ``templates/<app>/`` layout via APP_DIRS.
+        'DIRS': [
+            BASE_DIR / "home" / "template",
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -114,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kathmandu'
 
 USE_I18N = True
 
@@ -125,3 +129,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+

@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import Role, User
-
+from .models import User,Role
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'email', 'phone', 'created_at', 'updated_at')
-    search_fields = ('name', 'email', 'phone')
+    list_display = ('id', 'username', 'email', 'phone_number', 'created_at', 'updated_at')
+    search_fields = ('username', 'email', 'phone_number')
     list_filter = ('created_at', 'updated_at')
+    readonly_fields = ('created_at', 'updated_at')
 
 @admin.register(Role)
 class RoleAdmin(admin.ModelAdmin):

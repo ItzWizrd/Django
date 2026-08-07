@@ -1,0 +1,25 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<style>
+    .content { background: #f4f7fb; }
+    .card { border: 0; border-radius: 14px; }
+    form p { margin-bottom: 18px; }
+    form label { display: block; margin-bottom: 7px; color: #344054; font-weight: 600; }
+    form input, form select, form textarea { width: 100%; padding: 10px 12px; border: 1px solid #d0d5dd; border-radius: 8px; background: #fff; }
+    form input:focus, form select:focus, form textarea:focus { border-color: #86b7fe; outline: 0; box-shadow: 0 0 0 .2rem rgba(13,110,253,.15); }
+    .errorlist { margin: 0 0 8px; padding-left: 20px; color: #dc3545; }
+    .btn { border-radius: 8px; font-weight: 600; }
+</style>
+<div class="card shadow-sm mx-auto" style="max-width: 720px;">
+    <div class="card-body p-4">
+        <h2 class="mb-4">{% if object %}Update User{% else %}Add User{% endif %}</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary" type="submit">{% if object %}Update{% else %}Add{% endif %} User</button>
+            <a class="btn btn-outline-secondary" href="{% url 'user:user-list' %}">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
