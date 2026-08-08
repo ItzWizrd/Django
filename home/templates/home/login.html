@@ -1,0 +1,245 @@
+{% extends 'home/auth_base.html' %}
+
+{% block title %}Log In | IMS{% endblock %}
+
+{% block content %}
+<style>
+    .signup-page {
+        --signup-primary: #2563eb;
+        --signup-primary-dark: #1d4ed8;
+        --signup-text: #172033;
+        --signup-muted: #667085;
+        --signup-border: #d0d5dd;
+        min-height: calc(100vh - 160px);
+        display: flex;
+        align-items: center;
+        padding: 32px 12px;
+    }
+
+    .signup-card {
+        border: 1px solid #e9edf3;
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: 0 18px 45px rgba(16, 24, 40, 0.1);
+        overflow: hidden;
+        animation: signup-enter 0.45s ease-out both;
+    }
+
+    .signup-card .card-body {
+        padding: 36px;
+    }
+
+    .signup-title {
+        margin-bottom: 8px;
+        color: var(--signup-text);
+        font-size: clamp(1.65rem, 4vw, 2rem);
+        font-weight: 700;
+        letter-spacing: -0.025em;
+    }
+
+    .signup-subtitle {
+        margin-bottom: 28px;
+        color: var(--signup-muted);
+        font-size: 0.95rem;
+    }
+
+    .signup-form .form-group {
+        margin-bottom: 18px;
+    }
+
+    .signup-form label {
+        display: block;
+        margin-bottom: 7px;
+        color: #344054;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .signup-form input,
+    .signup-form select,
+    .signup-form textarea {
+        width: 100%;
+        min-height: 46px;
+        padding: 10px 13px;
+        color: var(--signup-text);
+        background-color: #fff;
+        border: 1px solid var(--signup-border);
+        border-radius: 9px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease,
+            background-color 0.2s ease;
+    }
+
+    .signup-form textarea {
+        min-height: 96px;
+        resize: vertical;
+    }
+
+    .signup-form input::placeholder,
+    .signup-form textarea::placeholder {
+        color: #98a2b3;
+    }
+
+    .signup-form input:hover,
+    .signup-form select:hover,
+    .signup-form textarea:hover {
+        border-color: #98a2b3;
+    }
+
+    .signup-form input:focus,
+    .signup-form select:focus,
+    .signup-form textarea:focus {
+        outline: 0;
+        border-color: var(--signup-primary);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.13);
+    }
+
+    .signup-form .helptext {
+        display: block;
+        margin-top: 6px;
+        color: var(--signup-muted);
+        font-size: 0.8rem;
+        line-height: 1.45;
+    }
+
+    .signup-field-error {
+        display: block;
+        margin-top: 6px;
+        color: #b42318;
+        font-size: 0.82rem;
+        font-weight: 500;
+    }
+
+    .signup-alert {
+        border: 0;
+        border-radius: 9px;
+        font-size: 0.9rem;
+    }
+
+    .signup-submit {
+        min-height: 46px;
+        margin-top: 4px;
+        border-color: var(--signup-primary);
+        border-radius: 9px;
+        background-color: var(--signup-primary);
+        font-weight: 600;
+        transition: background-color 0.2s ease, border-color 0.2s ease,
+            box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .signup-submit:hover {
+        background-color: var(--signup-primary-dark);
+        border-color: var(--signup-primary-dark);
+        box-shadow: 0 8px 18px rgba(37, 99, 235, 0.24);
+        transform: translateY(-1px);
+    }
+
+    .signup-submit:focus-visible {
+        outline: 0;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.22);
+    }
+
+    .signup-submit:active {
+        transform: translateY(0);
+    }
+
+    .signup-login {
+        margin: 22px 0 0;
+        color: var(--signup-muted);
+        font-size: 0.9rem;
+    }
+
+    .signup-login a {
+        color: var(--signup-primary-dark);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .signup-login a:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    @keyframes signup-enter {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 576px) {
+        .signup-page {
+            min-height: auto;
+            padding: 18px 0;
+        }
+
+        .signup-card .card-body {
+            padding: 26px 20px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .signup-card,
+        .signup-submit,
+        .signup-form input,
+        .signup-form select,
+        .signup-form textarea {
+            animation: none;
+            transition: none;
+        }
+    }
+</style>
+
+<div class="container signup-page">
+    <div class="row justify-content-center w-100">
+        <div class="col-lg-6 col-md-8">
+            <div class="card signup-card">
+                <div class="card-body">
+                    <h2 class="text-center signup-title">Sign in to your account</h2>
+                    <p class="text-center signup-subtitle">Welcome back! Enter your details to log in.</p>
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert signup-alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                    <div class="alert signup-alert alert-danger" role="alert">
+                        {{ form.non_field_errors|striptags }}
+                    </div>
+                    {% endif %}
+
+                    <form method="post" class="signup-form">
+                        {% csrf_token %}
+
+                        {% for field in form %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                            <small class="signup-field-error">{{ field.errors|striptags }}</small>
+                            {% endif %}
+                            {% if field.help_text %}
+                            <small class="helptext">{{ field.help_text|safe }}</small>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-primary w-100 signup-submit">Log In</button>
+                    </form>
+
+                    <p class="text-center signup-login">
+                        Don't have an account? <a href="{% url 'home:signup' %}">Sign up</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

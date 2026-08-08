@@ -3,6 +3,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.db.models import Count
+from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render
 
 from order.models import Order
@@ -22,6 +23,20 @@ def signup_view(request):
     else:
         form = UserSignUpForm()
     return render(request, "home/signup.html", {"form": form})
+
+
+def login_view(request): 
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("home:dashboard")
+        else:      messages.error(request, "Invalid username or password.")
+    else:
+
+        return render(request, "home/login.html")        
 
 
 def dashboard_view(request):
