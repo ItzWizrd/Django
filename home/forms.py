@@ -2,6 +2,20 @@ from django import forms
 from django.contrib.auth.models import User
 
 
+class LoginForm(forms.Form):
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={"placeholder": "Enter your username", "autocomplete": "username"}
+        )
+    )
+    password = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={"placeholder": "Enter your password", "autocomplete": "current-password"}
+        ),
+    )
+
+
 class UserSignUpForm(forms.ModelForm):
     password = forms.CharField(
         label="Password",

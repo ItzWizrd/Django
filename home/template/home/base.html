@@ -92,14 +92,14 @@
                         <a class="nav-link" href="#">Welcome, {{ user.username }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'admin:logout' %}">Logout</a>
+                        <a class="nav-link" href="{% url 'home:logout' %}">Logout</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'admin:login' %}">Login</a>
+                        <a class="nav-link" href="{% url 'home:login' %}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#" aria-disabled="true">Signup</a>
+                        <a class="nav-link" href="{% url 'home:signup' %}">Signup</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -112,8 +112,8 @@
         <h2>IMS Dashboard</h2>
         <ul>
             <li>
-                <a href="{% url 'admin:index' %}"
-                    class="{% if request.path == '/admin/' %}active{% endif %}">Dashboard</a>
+                <a href="{% url 'home:dashboard' %}"
+                    class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
             </li>
             <li>
                 <a href="{% url 'order:order-list' %}"

@@ -15,6 +15,7 @@ class OrderListView(LoginRequiredMixin, ListView):
 class OrderCreateView(LoginRequiredMixin, CreateView):
     model = Order
     form_class = OrderForm
+    template_name = "order/create_order.html"
     success_url = reverse_lazy("order:order-list")
 
 
