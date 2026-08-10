@@ -1,0 +1,81 @@
+{ % extends 'home/base.html' %}
+
+{ % block content %}
+<div class="container mt-4">
+    <h3>Create Order</h3>
+    <form method="post">
+        { % csrf_token %}
+        <div class="form-group">
+            <label for="customer">Customer</label>
+            <select name="customer" id="customer" class="form-control">
+                <option value="">Select Customer</option>
+                { % for customer in customers %}
+                <option value="{{ customer.id }}">{{ customer.name }}</option>
+                { % endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="order_date">Order Date</label>
+            <input type="date" name="order_date" id="order_date" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select name="status" id="status" class="form-control">
+                <option value="">Select Status</option>
+                { % for status in order_status %}
+                <option value="{{ status.0 }}">{{ status.1 }}</option>
+                { % endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+
+            
+            <label for="order_details">Order Details</label>
+            <select name="order_details" id="order_details" class="form-control" multiple>
+                { % for product in products %}
+                <option value="{{ product.id }}">{{ product.name }}</option>
+                { % endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Order</button>
+    </form>
+</div>
+
+<style>
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        font-weight: bold;
+    }
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+    .btn-primary:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+    }
+    .btn-primary:active {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+    .btn-primary:not(:disabled):not(.disabled):active {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+    .btn-primary:not(:disabled):not(.disabled):active:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+    }
+
+</style>
+{ % endblock %}

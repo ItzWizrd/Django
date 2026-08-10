@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--+tcr)=v-xi7)lbx-vj9g$75wz=^gpx=-24$cp(suy+#rwiq(3'
+SECRET_KEY = 'django-insecure-&@=(+i*^998)nkq0+s@_z1ixg+7144993$t&ow$^1#9)onz7+m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -43,9 +43,9 @@ PROJECT_APPS = [
     "user",
     "customer",
     "product",
-    "order",
-    "home",
     "suppliers",
+    "Orders",
+    "home",
 ]
 INSTALLED_APPS += THIRD_PARTY_APPS + PROJECT_APPS
 
@@ -64,11 +64,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # Keep the existing shared base template discoverable. App templates use
-        # Django's conventional ``templates/<app>/`` layout via APP_DIRS.
-        'DIRS': [
-            BASE_DIR / "home" / "template",
-        ],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -130,4 +126,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-
+# Auth redirects
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'

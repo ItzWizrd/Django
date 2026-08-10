@@ -1,15 +1,15 @@
 from django import forms
-
 from .models import Supplier
 
 
 class SupplierForm(forms.ModelForm):
-    name = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Enter Supplier Name"}), label="Supplier Name")
-    email = forms.EmailField(widget=forms.EmailInput(attrs={"placeholder": "Enter Email"}), label="Email")
-    phone_number = forms.CharField(required=False, widget=forms.TextInput(attrs={"placeholder": "Enter Phone Number"}), label="Phone Number")
-    address = forms.CharField(required=False, widget=forms.Textarea(attrs={"placeholder": "Enter Address", "rows": 4}), label="Address")
-    is_active = forms.BooleanField(required=False, label="Active")
-
     class Meta:
         model = Supplier
-        fields = "__all__"
+        fields = ['name', 'email', 'phone', 'address', 'is_active']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Supplier Name'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone'}),
+            'address': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Address', 'rows': 3}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
