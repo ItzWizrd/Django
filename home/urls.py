@@ -1,10 +1,16 @@
 from django.urls import path
-from .views import index_view, login_view, Signup_view, dashboard_view, logout_view
+from django.views.generic import RedirectView
+
+from .views import dashboard_view, login_view, logout_view, signup_view
+
+app_name = "home"
 
 urlpatterns = [
-    path('', index_view, name='index'),
-    path('login/', login_view, name='login'),
-    path('signup/', Signup_view, name='signup'),
-    path('dashboard/', dashboard_view, name='dashboard'),
-    path('logout/', logout_view, name='logout'),
- ]
+    path("", RedirectView.as_view(pattern_name="home:dashboard"), name="root"),
+    path("login", login_view, name="login-no-slash"),
+    path("login/", login_view, name="login"),
+    path("signup", signup_view, name="signup-no-slash"),
+    path("signup/", signup_view, name="signup"),
+    path("dashboard/", dashboard_view, name="dashboard"),
+    path("logout/", logout_view, name="logout"),
+]

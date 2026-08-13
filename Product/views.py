@@ -1,51 +1,56 @@
-from django.urls import reverse_lazy
-from .models import Product, Category
-from django.views.generic import UpdateView,DeleteView,CreateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import ProductForm, CategoryForm
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
-class CategoryListView(LoginRequiredMixin,ListView):
-    model = Category
-    template_name = "product/category_list.html"
-    context_object_name = 'category_list'
+from .forms import CategoryForm, ProductForm
+from .models import Category, Product
 
 
-class CategoryCreateView(LoginRequiredMixin,CreateView):
-    model = Category
-    form_class = CategoryForm
-    template_name = "product/category_create.html"
-    success_url = reverse_lazy('category-list')
-
-class CategoryUpdateView(LoginRequiredMixin,UpdateView):
-    model = Category
-    form_class = CategoryForm
-    template_name = "product/category_update.html"
-    success_url = reverse_lazy('category-list')
-
-class CategoryDeleteView(LoginRequiredMixin,DeleteView):
-    model = Category
-    template_name = "product/category_delete.html"
-    success_url = reverse_lazy('category-list')
-
-class ProductListView(LoginRequiredMixin,ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = "product/product_list.html"
-    context_object_name = 'product_list'
-
-class ProductCreateView(LoginRequiredMixin,CreateView):
-     model = Product
-     form_class = ProductForm
-     template_name = "product/product_create.html"
-     success_url = reverse_lazy('product-list')
-
-class ProductUpdateView(LoginRequiredMixin,UpdateView):
-     model = Product
-     form_class = ProductForm
-     template_name = "product/product_update.html"
-     success_url = reverse_lazy('product-list')
+    context_object_name = "products"
+    paginate_by = 10
+    queryset = Product.objects.order_by("-pk")
 
 
-class ProductDeleteView(LoginRequiredMixin,DeleteView):
-     model = Product
-     template_name = "product/product_delete.html"
-     success_url = reverse_lazy('product-list')
+class ProductCreateView(LoginRequiredMixin, CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy("product:product-list")
+
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy("product:product-list")
+
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    model = Product
+    success_url = reverse_lazy("product:product-list")
+
+
+class CategoryListView(LoginRequiredMixin, ListView):
+    model = Category
+    template_name = "product/category_list.html"
+    context_object_name = "categories"
+    paginate_by = 10
+    queryset = Category.objects.order_by("-pk")
+
+
+class CategoryCreateView(LoginRequiredMixin, CreateView):
+    model = Category
+    form_class = CategoryForm
+    success_url = reverse_lazy("product:category-list")
+
+
+class CategoryUpdateView(LoginRequiredMixin, UpdateView):
+    model = Category
+    form_class = CategoryForm
+    success_url = reverse_lazy("product:category-list")
+
+
+class CategoryDeleteView(LoginRequiredMixin, DeleteView):
+    model = Category
+    success_url = reverse_lazy("product:category-list")

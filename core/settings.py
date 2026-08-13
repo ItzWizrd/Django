@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 
+from  datetime import timedelta
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&@=(+i*^998)nkq0+s@_z1ixg+7144993$t&ow$^1#9)onz7+m'
+SECRET_KEY = 'django-insecure--+tcr)=v-xi7)lbx-vj9g$75wz=^gpx=-24$cp(suy+#rwiq(3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,14 +40,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "drf_yasg",
+]
+
 PROJECT_APPS = [
     "user",
     "customer",
     "product",
-    "suppliers",
-    "Orders",
+    "order",
     "home",
+    "suppliers",
 ]
 INSTALLED_APPS += THIRD_PARTY_APPS + PROJECT_APPS
 
@@ -64,7 +71,11 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # Keep the existing shared base template discoverable. App templates use
+        # Django's conventional ``templates/<app>/`` layout via APP_DIRS.
+        'DIRS': [
+            BASE_DIR / "home" / "template",
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,7 +99,19 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -126,7 +149,4 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# Auth redirects
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = 'login'
+

@@ -1,14 +1,14 @@
 from django import forms
+
 from .models import Customer
 
 
 class CustomerForm(forms.ModelForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Enter Username"}), label="Username")
+    email = forms.EmailField(widget=forms.EmailInput(attrs={"placeholder": "Enter Email"}), label="Email")
+    phone_number = forms.CharField(required=False, widget=forms.TextInput(attrs={"placeholder": "Enter Phone Number"}), label="Phone Number")
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder": "Enter Password"}), label="Password")
+
     class Meta:
         model = Customer
-        fields = ['name', 'email', 'phone', 'address']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Customer Name'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
-            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone'}),
-            'address': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Address', 'rows': 3}),
-        }
+        fields = "__all__"

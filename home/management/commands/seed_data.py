@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from faker import Faker
 
-from Orders.models import Order
+from order.models import Order
 from customer.models import Customer
 from product.models import Category, Product
 from suppliers.models import Supplier
@@ -65,8 +65,8 @@ class Command(BaseCommand):
             user, is_new = User.objects.get_or_create(
                 email=fake.unique.email(),
                 defaults={
-                    "name": fake.name(),
-                    "phone": fake.phone_number()[:15],
+                    "username": fake.user_name()[:100],
+                    "phone_number": fake.phone_number()[:15],
                     "password": make_password("password123"),
                     "address": fake.address(),
                     "role": random.choice(roles),
@@ -83,7 +83,7 @@ class Command(BaseCommand):
         created = []
         for name in names:
             category, _ = Category.objects.get_or_create(
-                name=name, defaults={"description": fake.sentence()}
+                category_name=name, defaults={"description": fake.sentence()}
             )
             created.append(category)
         return created
@@ -93,10 +93,10 @@ class Command(BaseCommand):
         created = []
         for _ in range(count):
             created.append(Product.objects.create(
-                name=fake.unique.catch_phrase(),
+                product_name=fake.unique.catch_phrase()[:100],
                 description=fake.sentence(),
                 price=Decimal(f"{random.uniform(5, 999):.2f}"),
-                category=random.choice(categories) if categories else None,
+                quantity=random.randint(1, 100),
             ))
         return created
 
@@ -107,7 +107,7 @@ class Command(BaseCommand):
                 email=fake.unique.company_email(),
                 defaults={
                     "name": fake.company(),
-                    "phone": fake.phone_number()[:20],
+                    "phone_number": fake.phone_number()[:15],
                     "address": fake.address(),
                     "is_active": True,
                 },
@@ -122,8 +122,9 @@ class Command(BaseCommand):
             customer, is_new = Customer.objects.get_or_create(
                 email=fake.unique.email(),
                 defaults={
-                    "name": fake.name(),
-                    "phone": fake.phone_number()[:15],
+                    "username": fake.user_name()[:100],
+                    "phone_number": fake.phone_number()[:15],
+                    "password": make_password("password123"),
                     "address": fake.address(),
                 },
             )

@@ -1,27 +1,23 @@
 from django import forms
-from .models import Product, Category
-from suppliers.models import Supplier
 
-class CategoryForm(forms.ModelForm):
-
-    class Meta:
-        model = Category
-        fields = '__all__'
-
-
-from django import forms
 from .models import Category, Product
 
 
 class ProductForm(forms.ModelForm):
-    name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3}), required=False)
-    category = forms.ModelChoiceField( queryset=Category.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
-    price = forms.DecimalField(max_digits=10, decimal_places=3,widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.001'}))
-    stock_quantity = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    reorder_level = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    supplier_details = forms.ModelMultipleChoiceField(queryset=Supplier.objects.all(),widget=forms.SelectMultiple(attrs={'class': 'form-control'}))
+    product_name = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Enter Product Name"}), label="Product Name")
+    description = forms.CharField(required=False, widget=forms.Textarea(attrs={"placeholder": "Enter Product Description", "rows": 4}), label="Description")
+    price = forms.DecimalField(min_value=0, widget=forms.NumberInput(attrs={"placeholder": "Enter Price", "step": "0.01"}), label="Price")
+    quantity = forms.IntegerField(min_value=0, widget=forms.NumberInput(attrs={"placeholder": "Enter Quantity"}), label="Quantity")
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = "__all__"
+
+
+class CategoryForm(forms.ModelForm):
+    category_name = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Enter Category Name"}), label="Category Name")
+    description = forms.CharField(required=False, widget=forms.Textarea(attrs={"placeholder": "Enter Category Description", "rows": 4}), label="Description")
+
+    class Meta:
+        model = Category
+        fields = "__all__"
